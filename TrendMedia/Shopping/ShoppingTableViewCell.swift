@@ -6,10 +6,11 @@
 //
 
 import UIKit
+import RealmSwift
 
 class ShoppingTableViewCell: UITableViewCell {
 
-    @IBOutlet weak var checkListImg: UIButton!
+    @IBOutlet weak var checkButton: UIButton!
     @IBOutlet weak var shoppingItemLabel: UILabel!
     @IBOutlet weak var starButton: UIButton!
     
@@ -23,5 +24,4 @@ class ShoppingTableViewCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
-
 }

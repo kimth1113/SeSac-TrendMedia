@@ -6,10 +6,12 @@
 //
 
 import UIKit
+import RealmSwift
 
 class ShoppingTableViewController: UITableViewController {
-
-    var shoppingList = ["그립톡 구매하기", "사이다 구매", "아이패드 케이스 최저가 알아보기", "양말"]
+    
+    let localRealm = try! Realm()
+    var tasks: Results<ShoppingItem>!
     
     @IBOutlet weak var itemTextField: UITextField!
     @IBOutlet weak var searchButton: UIButton!
@@ -21,6 +23,10 @@ class ShoppingTableViewController: UITableViewController {
         
         designSearchButton()
         designItemTextField()
+        
+        tasks = localRealm.objects(ShoppingItem.self).sorted(byKeyPath: "objectId", ascending: true)
+        print("-----======-=-=-=-", tasks)
+        tableView.reloadData()
     }
 
 
@@ -43,45 +49,110 @@ class ShoppingTableViewController: UITableViewController {
     
     
     @IBAction func tapSearchButton(_ sender: UIButton) {
-        shoppingList.append(itemTextField.text!)
         
-        print(shoppingList)
+        if let itemTitle = itemTextField.text {
+            
+            try! localRealm.write {
+                let newItem = ShoppingItem(shoppingItemTitle: itemTitle)
+                localRealm.add(newItem)
+            }
+        } else {
+            return
+        }
         
+        tasks = localRealm.objects(ShoppingItem.self).sorted(byKeyPath: "objectId", ascending: true)
+        view.endEditing(true)
+        itemTextField.text = ""
         tableView.reloadData()
     }
     
     @IBAction func returnedItemTextField(_ sender: UITextField) {
-        shoppingList.append(sender.text!)
         
-        print(shoppingList)
+        if let itemTitle = itemTextField.text {
+            
+            try! localRealm.write {
+                let newItem = ShoppingItem(shoppingItemTitle: itemTitle)
+                localRealm.add(newItem)
+            }
+        } else {
+            return
+        }
         
+        tasks = localRealm.objects(ShoppingItem.self).sorted(byKeyPath: "objectId", ascending: true)
+        view.endEditing(true)
+        itemTextField.text = ""
         tableView.reloadData()
     }
     
     
+}
+
+
+extension ShoppingTableViewController {
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return shoppingList.count
+        return tasks.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "ShoppingTableViewCell", for: indexPath) as! ShoppingTableViewCell
-        
-        
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "ShoppingTableViewCell", for: indexPath) as? ShoppingTableViewCell else { return UITableViewCell() }
         
         cell.backgroundColor = .systemGray6
         cell.layer.cornerRadius = 10
         
-        cell.shoppingItemLabel.text = shoppingList[indexPath.row]
+        cell.checkButton.tintColor = .black
+        cell.checkButton.setTitle("", for: .normal)
         
-        cell.checkListImg.setImage(UIImage(systemName: "checkmark.square.fill"), for: .normal)
-        cell.checkListImg.tintColor = .black
-        cell.checkListImg.setTitle("", for: .normal)
-                
-        cell.starButton.setImage(UIImage(systemName: "star.fill"), for: .normal)
         cell.starButton.tintColor = .black
         cell.starButton.setTitle("", for: .normal)
         
+//        cell.idx = indexPath.row
+        
+        cell.shoppingItemLabel.text = tasks[indexPath.row].shoppingItemTitle
+        
+        tasks[indexPath.row].shoppingCheck ?
+        cell.checkButton.setImage(UIImage(systemName: "checkmark.square.fill"), for: .normal)
+        : cell.checkButton.setImage(UIImage(systemName: "checkmark.square"), for: .normal)
+        
+        tasks[indexPath.row].shoppingFavorite ?
+        cell.starButton.setImage(UIImage(systemName: "star.fill"), for: .normal)
+        : cell.starButton.setImage(UIImage(systemName: "star"), for: .normal)
+        
+        cell.checkButton.tag = indexPath.row
+        cell.starButton.tag = indexPath.row
+        
+        cell.checkButton.addTarget(self, action: #selector(checkButtonClicked(_:)), for: .touchUpInside)
+        cell.starButton.addTarget(self, action: #selector(starButtonClicked(_:)), for: .touchUpInside)
         
         return cell
     }
+    
+    @objc
+    func checkButtonClicked(_ button: UIButton) {
+
+        let task = localRealm.objects(ShoppingItem.self)[button.tag]
+
+        try! localRealm.write {
+
+            task.shoppingCheck = !task.shoppingCheck
+        }
+
+        tasks = localRealm.objects(ShoppingItem.self).sorted(byKeyPath: "objectId", ascending: true)
+        tableView.reloadData()
+    }
+    
+    @objc
+    func starButtonClicked(_ button: UIButton) {
+        
+        let task = localRealm.objects(ShoppingItem.self)[button.tag]
+
+        try! localRealm.write {
+
+            task.shoppingFavorite = !task.shoppingFavorite
+        }
+
+        tasks = localRealm.objects(ShoppingItem.self).sorted(byKeyPath: "objectId", ascending: true)
+        tableView.reloadData()
+    }
+    
 }

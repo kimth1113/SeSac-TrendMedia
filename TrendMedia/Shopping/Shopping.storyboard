@@ -11,7 +11,7 @@
         <!--쇼핑-->
         <scene sceneID="VCd-fF-PhO">
             <objects>
-                <tableViewController id="6iN-gu-JSi" customClass="ShoppingTableViewController" customModule="TrendMedia" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="ShoppingTableViewController" id="6iN-gu-JSi" customClass="ShoppingTableViewController" customModule="TrendMedia" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" id="LH9-4J-4UH">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -79,9 +79,6 @@
                                             </constraints>
                                             <state key="normal" title="Button"/>
                                             <buttonConfiguration key="configuration" style="plain" title="Button"/>
-                                            <connections>
-                                                <action selector="tapCheckListImg:" destination="RRT-By-TXX" eventType="touchUpInside" id="xVU-vO-9x3"/>
-                                            </connections>
                                         </button>
                                     </subviews>
                                     <constraints>
@@ -95,7 +92,7 @@
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
-                                    <outlet property="checkListImg" destination="16J-az-VFC" id="4pG-0H-va1"/>
+                                    <outlet property="checkButton" destination="16J-az-VFC" id="1LU-2M-v0U"/>
                                     <outlet property="shoppingItemLabel" destination="wZE-uG-mQc" id="CxV-iJ-zuU"/>
                                     <outlet property="starButton" destination="6Kp-ae-aEU" id="34X-lu-6kg"/>
                                 </connections>
