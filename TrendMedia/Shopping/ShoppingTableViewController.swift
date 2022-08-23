@@ -199,7 +199,17 @@ extension ShoppingTableViewController {
     @objc
     func checkButtonClicked(_ button: UIButton) {
 
-        let shoppingItem = localRealm.objects(ShoppingItem.self).sorted(byKeyPath: sortValue.rawValue, ascending: true)[button.tag]
+        var shoppingItem: ShoppingItem?
+        
+        if sortValue == .byFavorite {
+            shoppingItem = localRealm.objects(ShoppingItem.self).sorted(byKeyPath: sortValue.rawValue, ascending: false)[button.tag]
+        } else {
+            shoppingItem = localRealm.objects(ShoppingItem.self).sorted(byKeyPath: sortValue.rawValue, ascending: true)[button.tag]
+        }
+        
+        guard let shoppingItem = shoppingItem else {
+            return
+        }        
         
         print(button.tag)
         
@@ -209,6 +219,7 @@ extension ShoppingTableViewController {
             shoppingItem.shoppingCheck = !shoppingItem.shoppingCheck
         }
 
+        
         if sortValue == .byFavorite {
             tasks = localRealm.objects(ShoppingItem.self).sorted(byKeyPath: sortValue.rawValue, ascending: false)
         } else {
@@ -220,11 +231,21 @@ extension ShoppingTableViewController {
     @objc
     func starButtonClicked(_ button: UIButton) {
         
-        let task = localRealm.objects(ShoppingItem.self).sorted(byKeyPath: sortValue.rawValue, ascending: true)[button.tag]
+        var shoppingItem: ShoppingItem?
+        
+        if sortValue == .byFavorite {
+            shoppingItem = localRealm.objects(ShoppingItem.self).sorted(byKeyPath: sortValue.rawValue, ascending: false)[button.tag]
+        } else {
+            shoppingItem = localRealm.objects(ShoppingItem.self).sorted(byKeyPath: sortValue.rawValue, ascending: true)[button.tag]
+        }
+        
+        guard let shoppingItem = shoppingItem else {
+            return
+        }
 
         try! localRealm.write {
 
-            task.shoppingFavorite = !task.shoppingFavorite
+            shoppingItem.shoppingFavorite = !shoppingItem.shoppingFavorite
         }
 
         if sortValue == .byFavorite {
