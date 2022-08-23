@@ -8,10 +8,24 @@
 import UIKit
 import RealmSwift
 
+enum sort: String {
+    case byId = "objectId"
+    case byTodo = "shoppingCheck"
+    case byTitle = "shoppingItemTitle"
+    case byFavorite = "shoppingFavorite"
+}
+
 class ShoppingTableViewController: UITableViewController {
     
     let localRealm = try! Realm()
-    var tasks: Results<ShoppingItem>!
+    var tasks: Results<ShoppingItem>! {
+        
+        didSet {
+            tableView.reloadData()
+        }
+    }
+    
+    var sortValue: sort = .byId
     
     @IBOutlet weak var itemTextField: UITextField!
     @IBOutlet weak var searchButton: UIButton!
@@ -24,9 +38,40 @@ class ShoppingTableViewController: UITableViewController {
         designSearchButton()
         designItemTextField()
         
-        tasks = localRealm.objects(ShoppingItem.self).sorted(byKeyPath: "objectId", ascending: true)
+        tasks = localRealm.objects(ShoppingItem.self).sorted(byKeyPath: sortValue.rawValue, ascending: true)
         print("-----======-=-=-=-", tasks)
         tableView.reloadData()
+        
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "정렬", style: .plain, target: self, action: #selector(showSortAlert))
+    }
+    
+    @objc
+    func showSortAlert() {
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        let idSort = UIAlertAction(title: "등록순", style: .default) { action in
+            self.tasks = self.localRealm.objects(ShoppingItem.self).sorted(byKeyPath: sort.byId.rawValue, ascending: true)
+            self.sortValue = .byId
+        }
+        let todoSort = UIAlertAction(title: "할일순", style: .default) { action in
+            self.tasks = self.localRealm.objects(ShoppingItem.self).sorted(byKeyPath: sort.byTodo.rawValue, ascending: true)
+            self.sortValue = .byTodo
+        }
+        let titleSort = UIAlertAction(title: "제목순", style: .default) { action in
+            self.tasks = self.localRealm.objects(ShoppingItem.self).sorted(byKeyPath: sort.byTitle.rawValue, ascending: true)
+            self.sortValue = .byTitle
+        }
+        let favoriteSort = UIAlertAction(title: "즐겨찾기순", style: .default) { action in
+            self.tasks = self.localRealm.objects(ShoppingItem.self).sorted(byKeyPath: sort.byFavorite.rawValue, ascending: false)
+            self.sortValue = .byFavorite
+        }
+        let cancel = UIAlertAction(title: "취소", style: .cancel)
+        
+        alert.addAction(idSort)
+        alert.addAction(todoSort)
+        alert.addAction(titleSort)
+        alert.addAction(favoriteSort)
+        alert.addAction(cancel)
+        self.present(alert, animated: true)
     }
 
 
@@ -60,10 +105,10 @@ class ShoppingTableViewController: UITableViewController {
             return
         }
         
-        tasks = localRealm.objects(ShoppingItem.self).sorted(byKeyPath: "objectId", ascending: true)
+        tasks = localRealm.objects(ShoppingItem.self).sorted(byKeyPath: sortValue.rawValue, ascending: true)
         view.endEditing(true)
         itemTextField.text = ""
-        tableView.reloadData()
+        
     }
     
     @IBAction func returnedItemTextField(_ sender: UITextField) {
@@ -78,10 +123,10 @@ class ShoppingTableViewController: UITableViewController {
             return
         }
         
-        tasks = localRealm.objects(ShoppingItem.self).sorted(byKeyPath: "objectId", ascending: true)
+        tasks = localRealm.objects(ShoppingItem.self).sorted(byKeyPath: sortValue.rawValue, ascending: true)
         view.endEditing(true)
         itemTextField.text = ""
-        tableView.reloadData()
+        
     }
     
     
@@ -121,38 +166,72 @@ extension ShoppingTableViewController {
         cell.checkButton.tag = indexPath.row
         cell.starButton.tag = indexPath.row
         
+        print(indexPath.row)
+        
         cell.checkButton.addTarget(self, action: #selector(checkButtonClicked(_:)), for: .touchUpInside)
         cell.starButton.addTarget(self, action: #selector(starButtonClicked(_:)), for: .touchUpInside)
         
         return cell
     }
     
+    override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        
+        let delete = UIContextualAction(style: .destructive, title: nil) { action, view, completionHandler in
+            
+            let shoppingItem = self.tasks[indexPath.row]
+            
+            try! self.localRealm.write {
+                self.localRealm.delete(shoppingItem)
+                
+            }
+            if self.sortValue == .byFavorite {
+                self.tasks = self.localRealm.objects(ShoppingItem.self).sorted(byKeyPath: self.sortValue.rawValue, ascending: false)
+            } else {
+                self.tasks = self.localRealm.objects(ShoppingItem.self).sorted(byKeyPath: self.sortValue.rawValue, ascending: true)
+            }
+        }
+        delete.image = UIImage(systemName: "trash.fill")
+        
+        
+        return UISwipeActionsConfiguration(actions: [delete])
+    }
+    
     @objc
     func checkButtonClicked(_ button: UIButton) {
 
-        let task = localRealm.objects(ShoppingItem.self)[button.tag]
-
+        let shoppingItem = localRealm.objects(ShoppingItem.self).sorted(byKeyPath: sortValue.rawValue, ascending: true)[button.tag]
+        
+        print(button.tag)
+        
+        //let dog = realm.objects(Dog.self).first!
         try! localRealm.write {
 
-            task.shoppingCheck = !task.shoppingCheck
+            shoppingItem.shoppingCheck = !shoppingItem.shoppingCheck
         }
 
-        tasks = localRealm.objects(ShoppingItem.self).sorted(byKeyPath: "objectId", ascending: true)
-        tableView.reloadData()
+        if sortValue == .byFavorite {
+            tasks = localRealm.objects(ShoppingItem.self).sorted(byKeyPath: sortValue.rawValue, ascending: false)
+        } else {
+            tasks = localRealm.objects(ShoppingItem.self).sorted(byKeyPath: sortValue.rawValue, ascending: true)
+        }
+        
     }
     
     @objc
     func starButtonClicked(_ button: UIButton) {
         
-        let task = localRealm.objects(ShoppingItem.self)[button.tag]
+        let task = localRealm.objects(ShoppingItem.self).sorted(byKeyPath: sortValue.rawValue, ascending: true)[button.tag]
 
         try! localRealm.write {
 
             task.shoppingFavorite = !task.shoppingFavorite
         }
 
-        tasks = localRealm.objects(ShoppingItem.self).sorted(byKeyPath: "objectId", ascending: true)
-        tableView.reloadData()
+        if sortValue == .byFavorite {
+            tasks = localRealm.objects(ShoppingItem.self).sorted(byKeyPath: sortValue.rawValue, ascending: false)
+        } else {
+            tasks = localRealm.objects(ShoppingItem.self).sorted(byKeyPath: sortValue.rawValue, ascending: true)
+        }
     }
     
 }
