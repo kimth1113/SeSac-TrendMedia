@@ -7,6 +7,7 @@
 
 import UIKit
 import RealmSwift
+import CoreMIDI
 
 enum sort: String {
     case byId = "objectId"
@@ -42,8 +43,12 @@ class ShoppingTableViewController: UITableViewController {
         print("-----======-=-=-=-", tasks)
         tableView.reloadData()
         
+
+        
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "정렬", style: .plain, target: self, action: #selector(showSortAlert))
     }
+    
+    
     
     @objc
     func showSortAlert() {
@@ -95,29 +100,23 @@ class ShoppingTableViewController: UITableViewController {
     
     @IBAction func tapSearchButton(_ sender: UIButton) {
         
-        if let itemTitle = itemTextField.text {
-            
-            try! localRealm.write {
-                let newItem = ShoppingItem(shoppingItemTitle: itemTitle)
-                localRealm.add(newItem)
-            }
-        } else {
-            return
-        }
-        
-        tasks = localRealm.objects(ShoppingItem.self).sorted(byKeyPath: sortValue.rawValue, ascending: true)
-        view.endEditing(true)
-        itemTextField.text = ""
-        
+        addItem()
     }
     
     @IBAction func returnedItemTextField(_ sender: UITextField) {
         
+        addItem()
+    }
+    
+    func addItem() {
+        let randomImage: UIImage = UIImage(named: "HarryPotter\(Int.random(in: 1...8))")!
+        
         if let itemTitle = itemTextField.text {
             
             try! localRealm.write {
                 let newItem = ShoppingItem(shoppingItemTitle: itemTitle)
                 localRealm.add(newItem)
+                saveImageToDocument(fileName: "\(newItem.objectId)", image: randomImage)
             }
         } else {
             return
@@ -126,10 +125,23 @@ class ShoppingTableViewController: UITableViewController {
         tasks = localRealm.objects(ShoppingItem.self).sorted(byKeyPath: sortValue.rawValue, ascending: true)
         view.endEditing(true)
         itemTextField.text = ""
-        
     }
     
-    
+    func moveToDetail(objectId: ObjectId, checkImage: UIImage, itemTitle: String, starImage: UIImage) {
+        let vc = DetailItemViewController()
+        
+        vc.mainView.checkView.image = checkImage
+        vc.mainView.titleLabel.text = itemTitle
+        vc.mainView.starView.image = starImage
+        
+        let randomImage = loadImageFromDocument(fileName: "\(objectId)")
+        
+        vc.mainView.randomImageView.image = randomImage
+        
+        let nav = UINavigationController(rootViewController: vc)
+        
+        self.present(nav, animated: true)
+    }
 }
 
 
@@ -181,8 +193,8 @@ extension ShoppingTableViewController {
             let shoppingItem = self.tasks[indexPath.row]
             
             try! self.localRealm.write {
+                self.removeImageFromDocument(fileName: "\(shoppingItem.objectId)")
                 self.localRealm.delete(shoppingItem)
-                
             }
             if self.sortValue == .byFavorite {
                 self.tasks = self.localRealm.objects(ShoppingItem.self).sorted(byKeyPath: self.sortValue.rawValue, ascending: false)
@@ -194,6 +206,18 @@ extension ShoppingTableViewController {
         
         
         return UISwipeActionsConfiguration(actions: [delete])
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard let cell = tableView.cellForRow(at: indexPath) as? ShoppingTableViewCell else { return }
+        
+        let checkImage = cell.checkButton.imageView?.image
+        let itemTitle = cell.shoppingItemLabel.text!
+        let starImage = cell.starButton.imageView?.image
+        
+        let objectId = tasks[indexPath.row].objectId
+        
+        moveToDetail(objectId: objectId, checkImage: checkImage!, itemTitle: itemTitle, starImage: starImage!)
     }
     
     @objc

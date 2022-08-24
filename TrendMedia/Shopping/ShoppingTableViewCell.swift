@@ -13,6 +13,7 @@ class ShoppingTableViewCell: UITableViewCell {
     @IBOutlet weak var checkButton: UIButton!
     @IBOutlet weak var shoppingItemLabel: UILabel!
     @IBOutlet weak var starButton: UIButton!
+    var randomImage: UIImage!
     
     override func awakeFromNib() {
         super.awakeFromNib()
