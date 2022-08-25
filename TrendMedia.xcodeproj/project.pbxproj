@@ -26,6 +26,7 @@
 		8C10AC9428894B1B00243132 /* SecondViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C10AC9328894B1B00243132 /* SecondViewController.swift */; };
 		8C10AC9628899A2100243132 /* OneViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C10AC9528899A2100243132 /* OneViewController.swift */; };
 		8C10AC9828899A5200243132 /* TwoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C10AC9728899A5200243132 /* TwoViewController.swift */; };
+		8C37D2B628B7D0C1009AF5F4 /* Zip in Frameworks */ = {isa = PBXBuildFile; productRef = 8C37D2B528B7D0C1009AF5F4 /* Zip */; };
 		8C3FA7A82885B64F00EF0B72 /* SettingPracTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C3FA7A72885B64F00EF0B72 /* SettingPracTableViewController.swift */; };
 		8C8D0AFC28871C2100247B73 /* Shopping.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8C8D0AFB28871C2100247B73 /* Shopping.storyboard */; };
 		8C8D0AFE28871DC400247B73 /* ShoppingTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C8D0AFD28871DC400247B73 /* ShoppingTableViewController.swift */; };
@@ -39,6 +40,8 @@
 		8CB3BE6F28B37F9E00CCF006 /* ShoppingRealmModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CB3BE6E28B37F9E00CCF006 /* ShoppingRealmModel.swift */; };
 		8CB3BE7228B3804F00CCF006 /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = 8CB3BE7128B3804F00CCF006 /* Realm */; };
 		8CB3BE7428B3804F00CCF006 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 8CB3BE7328B3804F00CCF006 /* RealmSwift */; };
+		8CC305ED28B7CC74008680AB /* BackupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CC305EC28B7CC74008680AB /* BackupView.swift */; };
+		8CC305EF28B7CC80008680AB /* BackupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CC305EE28B7CC80008680AB /* BackupViewController.swift */; };
 		8CF7E4792887395E001EDF64 /* MovieSearchTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CF7E4782887395E001EDF64 /* MovieSearchTableViewController.swift */; };
 		8CF7E47B28873DC3001EDF64 /* MovieSearchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CF7E47A28873DC3001EDF64 /* MovieSearchTableViewCell.swift */; };
 		8CF813362886401000A0B5BE /* Search.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8CF813352886401000A0B5BE /* Search.storyboard */; };
@@ -85,6 +88,8 @@
 		8CA9BD7828B69463005AEDC9 /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 		8CA9BD7D28B6ABB5005AEDC9 /* FileManage+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FileManage+Extension.swift"; sourceTree = "<group>"; };
 		8CB3BE6E28B37F9E00CCF006 /* ShoppingRealmModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShoppingRealmModel.swift; sourceTree = "<group>"; };
+		8CC305EC28B7CC74008680AB /* BackupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackupView.swift; sourceTree = "<group>"; };
+		8CC305EE28B7CC80008680AB /* BackupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackupViewController.swift; sourceTree = "<group>"; };
 		8CF7E4782887395E001EDF64 /* MovieSearchTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieSearchTableViewController.swift; sourceTree = "<group>"; };
 		8CF7E47A28873DC3001EDF64 /* MovieSearchTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieSearchTableViewCell.swift; sourceTree = "<group>"; };
 		8CF813352886401000A0B5BE /* Search.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Search.storyboard; sourceTree = "<group>"; };
@@ -106,6 +111,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8C37D2B628B7D0C1009AF5F4 /* Zip in Frameworks */,
 				8CB3BE7428B3804F00CCF006 /* RealmSwift in Frameworks */,
 				8CB3BE7228B3804F00CCF006 /* Realm in Frameworks */,
 				8C1099032887AE6E00E85DFB /* Toast in Frameworks */,
@@ -203,6 +209,7 @@
 		8C8D0B042887361800247B73 /* Shopping */ = {
 			isa = PBXGroup;
 			children = (
+				8CC305EB28B7CC66008680AB /* Backup */,
 				8CA9BD7528B6942D005AEDC9 /* Base */,
 				8CA9BD7028B693CC005AEDC9 /* DetailItem */,
 				8CB3BE6D28B37F8500CCF006 /* Realm */,
@@ -254,6 +261,15 @@
 			path = Realm;
 			sourceTree = "<group>";
 		};
+		8CC305EB28B7CC66008680AB /* Backup */ = {
+			isa = PBXGroup;
+			children = (
+				8CC305EC28B7CC74008680AB /* BackupView.swift */,
+				8CC305EE28B7CC80008680AB /* BackupViewController.swift */,
+			);
+			path = Backup;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -276,6 +292,7 @@
 				8CB3BE7128B3804F00CCF006 /* Realm */,
 				8CB3BE7328B3804F00CCF006 /* RealmSwift */,
 				8CA9BD7B28B69B22005AEDC9 /* SnapKit */,
+				8C37D2B528B7D0C1009AF5F4 /* Zip */,
 			);
 			productName = TrendMedia;
 			productReference = 8C0BE9482884DDE50068AE11 /* TrendMedia.app */;
@@ -310,6 +327,7 @@
 				8C1099012887AE6E00E85DFB /* XCRemoteSwiftPackageReference "Toast-Swift" */,
 				8CB3BE7028B3804E00CCF006 /* XCRemoteSwiftPackageReference "realm-swift" */,
 				8CA9BD7A28B69B22005AEDC9 /* XCRemoteSwiftPackageReference "SnapKit" */,
+				8C37D2B428B7D0C1009AF5F4 /* XCRemoteSwiftPackageReference "Zip" */,
 			);
 			productRefGroup = 8C0BE9492884DDE50068AE11 /* Products */;
 			projectDirPath = "";
@@ -356,6 +374,7 @@
 				8CF7E4792887395E001EDF64 /* MovieSearchTableViewController.swift in Sources */,
 				8C1098FD28879DF800E85DFB /* RecommendCollectionViewCell.swift in Sources */,
 				8C8D0AFE28871DC400247B73 /* ShoppingTableViewController.swift in Sources */,
+				8CC305EF28B7CC80008680AB /* BackupViewController.swift in Sources */,
 				8CF813412886451F00A0B5BE /* UIViewController+Extension.swift in Sources */,
 				8C10AC9828899A5200243132 /* TwoViewController.swift in Sources */,
 				8C1098FB28879AA000E85DFB /* RecommendCollectionViewController.swift in Sources */,
@@ -366,6 +385,7 @@
 				8C0BE9622884FE360068AE11 /* SettingTableViewController.swift in Sources */,
 				8CFF0ADD2887871C00F18CC4 /* SearchMovieJTableViewController.swift in Sources */,
 				8CA9BD7228B69403005AEDC9 /* DetailItemViewController.swift in Sources */,
+				8CC305ED28B7CC74008680AB /* BackupView.swift in Sources */,
 				8CF8133F2886440F00A0B5BE /* SearchViewController.swift in Sources */,
 				8C3FA7A82885B64F00EF0B72 /* SettingPracTableViewController.swift in Sources */,
 				8C0BE9502884DDE50068AE11 /* ViewController.swift in Sources */,
@@ -530,7 +550,7 @@
 				INFOPLIST_KEY_UIMainStoryboardFile = Trend;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -559,7 +579,7 @@
 				INFOPLIST_KEY_UIMainStoryboardFile = Trend;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -613,6 +633,14 @@
 				minimumVersion = 5.0.0;
 			};
 		};
+		8C37D2B428B7D0C1009AF5F4 /* XCRemoteSwiftPackageReference "Zip" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/marmelroy/Zip.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.0.0;
+			};
+		};
 		8CA9BD7A28B69B22005AEDC9 /* XCRemoteSwiftPackageReference "SnapKit" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SnapKit/SnapKit.git";
@@ -641,6 +669,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 8C1099012887AE6E00E85DFB /* XCRemoteSwiftPackageReference "Toast-Swift" */;
 			productName = Toast;
+		};
+		8C37D2B528B7D0C1009AF5F4 /* Zip */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 8C37D2B428B7D0C1009AF5F4 /* XCRemoteSwiftPackageReference "Zip" */;
+			productName = Zip;
 		};
 		8CA9BD7B28B69B22005AEDC9 /* SnapKit */ = {
 			isa = XCSwiftPackageProductDependency;

@@ -44,11 +44,18 @@ class ShoppingTableViewController: UITableViewController {
         tableView.reloadData()
         
 
+        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "백업", style: .plain, target: self, action: #selector(showBackupVC))
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "정렬", style: .plain, target: self, action: #selector(showSortAlert))
     }
     
-    
+    @objc
+    func showBackupVC() {
+        
+        let vc = BackupViewController()
+        
+        self.navigationController?.pushViewController(vc, animated: true)
+    }
     
     @objc
     func showSortAlert() {
